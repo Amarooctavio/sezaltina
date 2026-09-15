@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reset (privado)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="style.css">
+<style>
+.center{ text-align:center; padding-top:3rem; }
+.status-card{
+  max-width:480px; margin:2rem auto 0;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:20px; padding:2.4rem; backdrop-filter:blur(6px);
+}
+.status-title{ font-family:'Cormorant Garamond',serif; font-size:1.6rem; }
+.danger-btn{
+  background:linear-gradient(90deg,#c94f7c,#ff6fa5); border:none; color:#fff;
+  padding:.9rem 1.8rem; border-radius:30px; font-size:.95rem; cursor:pointer;
+  margin-top:1.4rem; font-family:'Poppins',sans-serif;
+}
+.confirm-btn{
+  background:linear-gradient(90deg,var(--hotpink),var(--gold)); border:none; color:#1a0714;
+  padding:.9rem 1.8rem; border-radius:30px; font-size:.95rem; cursor:pointer;
+  margin-top:1rem; font-weight:600; font-family:'Poppins',sans-serif;
+}
+.hidden{ display:none; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<main class="center" style="max-width:920px;margin:0 auto;padding:3.2rem 1.6rem;">
+  <h1 class="eyebrow-free-title">Página privada</h1>
+  <p class="lede" style="margin-left:auto;margin-right:auto;">Só tu tens este link. Repõe a resposta do pedido para "ainda não respondeu".</p>
+
+  <div class="status-card">
+
+    <div id="step1">
+      <p class="status-title" id="current-status">A verificar estado atual...</p>
+      <button id="ask-reset-btn" class="danger-btn">Repor resposta</button>
+    </div>
+
+    <div id="step2" class="hidden">
+      <p class="status-title">De certeza?</p>
+      <p style="margin-top:.6rem; opacity:.85;">Isto vai apagar a resposta atual e ela vai poder ver a pergunta outra vez.</p>
+      <button id="confirm-reset-btn" class="confirm-btn">Sim, repor agora</button>
+    </div>
+
+    <div id="step3" class="hidden">
+      <p class="status-title" id="result-text"></p>
+    </div>
+
+  </div>
+</main>
+
+<script src="bg.js"></script>
+<script>
+const ANSWER_KEY = "amaro-sezaltina-pedido-namoro-9f3k2x";
+const GET_URL = `https://countapi.mileshilliard.com/api/v1/get/${ANSWER_KEY}`;
+const SET_URL = `https://countapi.mileshilliard.com/api/v1/set/${ANSWER_KEY}?value=0`;
+
+async function loadStatus(){
+  const el = document.getElementById('current-status');
+  try{
+    const res = await fetch(GET_URL, { cache: 'no-store' });
+    const data = await res.json();
+    el.textContent = String(data.value) === '1'
+      ? "Estado atual: ela já respondeu SIM."
+      : "Estado atual: ainda sem resposta.";
+  }catch(e){
+    el.textContent = "Não foi possível verificar o estado atual.";
+  }
+}
+loadStatus();
+
+document.getElementById('ask-reset-btn').addEventListener('click', ()=>{
+  document.getElementById('step1').classList.add('hidden');
+  document.getElementById('step2').classList.remove('hidden');
+});
+
+document.getElementById('confirm-reset-btn').addEventListener('click', async ()=>{
+  const resultText = document.getElementById('result-text');
+  document.getElementById('step2').classList.add('hidden');
+  document.getElementById('step3').classList.remove('hidden');
+  resultText.textContent = "A repor...";
+  try{
+    await fetch(SET_URL, { cache: 'no-store' });
+    resultText.textContent = "Reposto! A resposta está limpa outra vez.";
+  }catch(e){
+    resultText.textContent = "Falhou. Tenta de novo mais tarde.";
+  }
+});
+</script>
+</body>
+</html>
