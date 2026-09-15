@@ -117,10 +117,6 @@ function showAskSection(){
 }
 
 async function init(){
-  if(localStorage.getItem(LOCAL_KEY) === 'sim'){
-    showAlreadyAnswered();
-    return;
-  }
   try{
     const res = await fetch(GET_URL, { cache: 'no-store' });
     if(res.ok){
@@ -128,11 +124,18 @@ async function init(){
       if(String(data.value) === '1'){
         localStorage.setItem(LOCAL_KEY, 'sim');
         showAlreadyAnswered();
-        return;
+      } else {
+        localStorage.removeItem(LOCAL_KEY);
+        showAskSection();
       }
+      return;
     }
-  }catch(e){ /* sem ligação — deixa responder na mesma */ }
-  showAskSection();
+  }catch(e){ /* sem ligação — usa a última marca local conhecida */ }
+  if(localStorage.getItem(LOCAL_KEY) === 'sim'){
+    showAlreadyAnswered();
+  } else {
+    showAskSection();
+  }
 }
 init();
 
