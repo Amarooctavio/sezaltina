@@ -55,7 +55,7 @@
 <main class="page-fade">
   <div class="ask-wrapper">
 
-    <div id="ask-section">
+    <div id="ask-section" class="hidden">
       <h2 class="ask-title">Sezaltina Simbovala Soy Magalhães...</h2>
       <p class="ask-question">Aceitas namorar comigo? 💍</p>
       <div class="ask-buttons" id="ask-buttons">
@@ -78,6 +78,10 @@
       <p style="margin-top:.7rem; opacity:.85;">Obrigado por teres dito sim. Guardo isso comigo todos os dias.</p>
     </div>
 
+    <div id="loading-section">
+      <p style="opacity:.7;">a preparar...</p>
+    </div>
+
   </div>
 </main>
 
@@ -87,10 +91,13 @@
 
 <script src="bg.js"></script>
 <script>
-/* Estado partilhado simples via kvdb.io (sem servidor próprio) */
-const STATUS_URL = "https://kvdb.io/sez-amr-5d7a2d01d3/resposta";
+/* Estado partilhado via CountAPI — só usa GET, sem problemas de CORS */
+const ANSWER_KEY = "amaro-sezaltina-pedido-namoro-9f3k2x";
+const GET_URL = `https://countapi.mileshilliard.com/api/v1/get/${ANSWER_KEY}`;
+const SET_URL = `https://countapi.mileshilliard.com/api/v1/set/${ANSWER_KEY}?value=1`;
 const LOCAL_KEY = "sez_amaro_respondeu";
 
+const loadingSection = document.getElementById('loading-section');
 const askSection = document.getElementById('ask-section');
 const celebration = document.getElementById('celebration');
 const answeredSection = document.getElementById('answered-section');
@@ -99,28 +106,35 @@ const noBtn = document.getElementById('no-btn');
 const yesBtn = document.getElementById('yes-btn');
 
 function showAlreadyAnswered(){
+  loadingSection.classList.add('hidden');
   askSection.classList.add('hidden');
   celebration.classList.add('hidden');
   answeredSection.classList.remove('hidden');
 }
+function showAskSection(){
+  loadingSection.classList.add('hidden');
+  askSection.classList.remove('hidden');
+}
 
-async function checkIfAlreadyAnswered(){
+async function init(){
   if(localStorage.getItem(LOCAL_KEY) === 'sim'){
     showAlreadyAnswered();
     return;
   }
   try{
-    const res = await fetch(STATUS_URL, { cache: 'no-store' });
+    const res = await fetch(GET_URL, { cache: 'no-store' });
     if(res.ok){
-      const text = (await res.text()).trim();
-      if(text === 'sim'){
+      const data = await res.json();
+      if(String(data.value) === '1'){
         localStorage.setItem(LOCAL_KEY, 'sim');
         showAlreadyAnswered();
+        return;
       }
     }
-  }catch(e){ /* sem ligação — segue com o fluxo normal */ }
+  }catch(e){ /* sem ligação — deixa responder na mesma */ }
+  showAskSection();
 }
-checkIfAlreadyAnswered();
+init();
 
 function fleeNo(){
   const maxX = askButtons.clientWidth - noBtn.clientWidth - 10;
@@ -141,7 +155,7 @@ yesBtn.addEventListener('click', async ()=>{
   launchConfetti();
   localStorage.setItem(LOCAL_KEY, 'sim');
   try{
-    await fetch(STATUS_URL, { method:'POST', body:'sim' });
+    await fetch(SET_URL, { cache: 'no-store' });
   }catch(e){ /* mesmo sem rede, guardamos localmente */ }
 });
 
