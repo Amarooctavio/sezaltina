@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A nossa música — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.music-card{
+  max-width:600px; margin:2.4rem auto 0; text-align:center;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:22px; padding:2rem 1.6rem; backdrop-filter:blur(8px);
+}
+.music-lede{ max-width:56ch; margin:1rem auto 1.8rem; opacity:.92; }
+.spotify-wrap{ border-radius:16px; overflow:hidden; box-shadow:0 16px 40px rgba(0,0,0,.4); }
+.lyrics-note{ margin-top:1.6rem; font-size:.88rem; opacity:.75; }
+.lyrics-note a{ color:var(--champagne); text-decoration:underline; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title" style="text-align:center;">A nossa música</h1>
+  <p class="lede music-lede" style="text-align:center;">
+    "Heaven Baby", de Ayra Starr com ZAYN. Ouve com calma — é a música que mais se
+    parece com o que sinto por ti: entrega total, sem reservas.
+  </p>
+
+  <div class="music-card">
+    <div class="spotify-wrap" style="aspect-ratio:16/9; position:relative;">
+      <div id="yt-player" style="position:absolute; inset:0;"></div>
+    </div>
+    <p class="lyrics-note">
+      As legendas já vêm ativadas. Se não aparecerem em português automaticamente,
+      toca no ícone <strong>CC</strong> do vídeo → engrenagem ⚙ → Legendas → Traduzir automaticamente → Português.
+    </p>
+  </div>
+
+  <div class="music-card" style="margin-top:2rem; text-align:left;">
+    <h2 style="font-family:'Cormorant Garamond',serif; font-size:1.5rem; text-align:center; margin-bottom:1rem;">O que esta música significa para mim</h2>
+    <p style="opacity:.93; margin-bottom:1rem;">
+      "Heaven Baby" fala de um amor levado ao extremo — daquele tipo que trata a pessoa amada
+      quase como algo sagrado, insubstituível, capaz de mudar por completo a ideia que se tem
+      de felicidade. É uma canção sobre entrega sem reservas: sobre escolher alguém de forma tão
+      completa que a sua ausência se torna, simplesmente, impensável.
+    </p>
+    <p style="opacity:.93; margin-bottom:1rem;">
+      Há também uma ideia de admiração que beira o divino, mas dita de forma simples e atual —
+      comparar quem se ama a um anjo, a um pedaço de céu, sem precisar de grandes discursos
+      religiosos para isso. É colocar o outro num patamar de pureza e importância que poucas
+      palavras normais conseguem descrever.
+    </p>
+    <p style="opacity:.93; margin-bottom:1rem;">
+      Escolhi esta música para ti porque é exatamente assim que sinto o que existe entre nós:
+      um amor que não cabe em explicações pequenas, que me faz querer dar tudo sem medir, e que
+      transforma o simples facto de teres na minha vida em algo que, para mim, já é suficiente.
+    </p>
+    <p class="lyrics-note" style="text-align:center; margin-top:1.4rem;">
+      Não posso reproduzir a letra aqui por direitos de autor, mas podes lê-la, incluindo
+      traduções, em sites como o
+      <a href="https://genius.com" target="_blank" rel="noopener">Genius</a>.
+    </p>
+  </div>
+
+  <div style="text-align:center; margin-top:2rem;">
+    <a class="btn" href="pedido.html">Ir para a última página 💍</a>
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico</footer>
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script>
+// Lista de vídeos candidatos, por ordem de preferência.
+// Se um deles tiver a incorporação bloqueada pelo dono, o site avança
+// automaticamente para o seguinte — sem precisar de editar nada à mão.
+const VIDEO_CANDIDATES = ["emv-sEuZDHU", "bb8w9l46TmI"];
+let candidateIndex = 0;
+let ytPlayer = null;
+let apiReady = false;
+
+function showUnavailableMessage(){
+  const el = document.getElementById('yt-player');
+  if(el) el.innerHTML =
+    '<div style="display:flex;align-items:center;justify-content:center;height:100%;' +
+    'text-align:center;padding:1.2rem;color:#fff;font-family:Poppins,sans-serif;font-size:.9rem;">' +
+    '<p>Este vídeo não permite ser reproduzido aqui. ' +
+    '<a href="https://youtu.be/' + VIDEO_CANDIDATES[0] + '" target="_blank" rel="noopener" ' +
+    'style="color:#f3d9a4;text-decoration:underline;">Abrir no YouTube</a></p></div>';
+}
+
+function loadCandidate(index){
+  if(index >= VIDEO_CANDIDATES.length){
+    showUnavailableMessage();
+    return;
+  }
+  if(ytPlayer && typeof ytPlayer.loadVideoById === 'function'){
+    ytPlayer.loadVideoById(VIDEO_CANDIDATES[index]);
+    return;
+  }
+  ytPlayer = new YT.Player('yt-player', {
+    width: '100%',
+    height: '100%',
+    videoId: VIDEO_CANDIDATES[index],
+    playerVars: { cc_load_policy: 1, cc_lang_pref: 'pt', hl: 'pt', rel: 0 },
+    events: {
+      'onError': function(){
+        candidateIndex++;
+        loadCandidate(candidateIndex);
+      }
+    }
+  });
+}
+
+function onYouTubeIframeAPIReady(){
+  apiReady = true;
+  loadCandidate(candidateIndex);
+}
+
+// Rede de segurança: se a API de deteção de erro não iniciar a tempo
+// (comum ao abrir o ficheiro localmente com file://, em vez de num
+// servidor real), mostra o vídeo com um iframe direto, garantindo que
+// nunca fica em branco.
+setTimeout(function(){
+  if(!apiReady){
+    const el = document.getElementById('yt-player');
+    if(el){
+      el.outerHTML =
+        '<iframe id="yt-player" style="position:absolute;inset:0;width:100%;height:100%;" ' +
+        'src="https://www.youtube.com/embed/' + VIDEO_CANDIDATES[0] + '?cc_load_policy=1&cc_lang_pref=pt&hl=pt&rel=0" ' +
+        'title="Ayra Starr e ZAYN - Heaven Baby" frameborder="0" ' +
+        'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" ' +
+        'referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>';
+    }
+  }
+}, 2500);
+</script>
+</body>
+</html>

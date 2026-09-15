@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surpresa — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.reveal-box{
+  max-width:560px; margin:2.6rem auto 0; text-align:center;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.16);
+  border-radius:20px; padding:2.4rem; min-height:120px;
+}
+.reveal-text{ font-family:'Cormorant Garamond',serif; font-size:1.3rem; font-style:italic; opacity:0; transition:opacity 1.2s; }
+.reveal-text.show{ opacity:1; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">Encontraste-a.</h1>
+  <p class="lede">Esta página não tem link em lado nenhum do menu. Só quem procura com atenção é que chega aqui — como tu.</p>
+
+  <div class="reveal-box">
+    <p id="reveal-text" class="reveal-text">A carregar um segredo...</p>
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico</footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+<script>
+setTimeout(()=>{
+  const el = document.getElementById('reveal-text');
+  el.textContent = "Se chegaste até aqui, já sabes que reparo em detalhes. É assim que reparo em ti, todos os dias — nos pequenos detalhes que mais ninguém vê. Obrigado por seres curiosa. Amo isso em ti.";
+  el.classList.add('show');
+}, 500);
+</script>
+</body>
+</html>

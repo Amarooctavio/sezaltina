@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frase do dia — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.verse-card{
+  max-width:600px; margin:2.6rem auto 0; text-align:center;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:22px; padding:2.6rem 2rem; backdrop-filter:blur(8px);
+}
+.verse-text{ font-family:'Cormorant Garamond',serif; font-size:1.35rem; line-height:1.75; font-style:italic; }
+.verse-note{ margin-top:1.4rem; opacity:.6; font-size:.78rem; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">A frase de hoje</h1>
+  <p class="lede">Um pensamento novo à tua espera sempre que voltares aqui. Tem mais de 23 mil frases, uma por dia.</p>
+
+  <div class="verse-card">
+    <p id="verse-text" class="verse-text"></p>
+    <button id="new-verse-btn" class="btn ghost" style="margin-top:1.6rem;">Outra frase agora ✨</button>
+    <p class="verse-note">frase de hoje, gerada só para ti</p>
+  </div>
+
+  <div class="actions">
+      <a class="btn" href="quiz.html">Jogo de perguntas →</a>
+  </div>
+
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+<script src="frases.js"></script>
+<script>
+document.getElementById('verse-text').textContent = FraseEngine.fraseDoDia();
+document.getElementById('new-verse-btn').addEventListener('click', ()=>{
+  document.getElementById('verse-text').textContent = FraseEngine.fraseAleatoria();
+});
+</script>
+</body>
+</html>

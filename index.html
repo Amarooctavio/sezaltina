@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Sezaltina</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.hero{ text-align:center; padding-top:1rem; }
+.pre{ font-size:.95rem; opacity:.85; font-family:'Cormorant',serif; font-style:italic; }
+.name{
+  font-family:'Cormorant Garamond',serif; font-weight:700;
+  font-size:clamp(3.2rem,13vw,6.5rem); line-height:1;
+  margin:.3rem 0 .6rem;
+  background:linear-gradient(90deg,#fff,#ffd7e8,#ff9ec4,#fff);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  background-size:300% auto; animation:shine 6s linear infinite;
+}
+@keyframes shine{ to{ background-position:300% center; } }
+.age-line{ font-size:1.05rem; opacity:.9; }
+.hero-lede{ max-width:56ch; margin:1.4rem auto 0; opacity:.92; }
+.countdown{
+  margin:2.6rem auto 0; max-width:520px;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+  border-radius:20px; padding:1.6rem; backdrop-filter:blur(6px);
+}
+.countdown p.label{ font-size:.85rem; opacity:.8; margin-bottom:.8rem; }
+.count-grid{ display:flex; justify-content:center; gap:1.4rem; flex-wrap:wrap; }
+.count-item .num{ font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:700; }
+.count-item .unit{ font-size:.72rem; opacity:.75; text-transform:lowercase; }
+.birthday-banner{
+  margin:2.6rem auto 0; max-width:560px;
+  background:linear-gradient(120deg, rgba(255,45,120,.25), rgba(217,164,65,.25));
+  border:1px solid rgba(255,255,255,.25); border-radius:22px; padding:2rem;
+}
+.birthday-banner h2{ font-family:'Cormorant Garamond',serif; font-size:2rem; }
+.actions{ margin-top:2.4rem; display:flex; gap:.8rem; justify-content:center; flex-wrap:wrap; }
+.curtain{
+  position:fixed; inset:0; z-index:100; background:var(--wine);
+  display:flex; align-items:center; justify-content:center;
+  transition:opacity 1s ease, visibility 1s;
+}
+.curtain span{ font-family:'Cormorant Garamond',serif; font-size:1.4rem; opacity:.9; letter-spacing:1px; }
+.curtain.gone{ opacity:0; visibility:hidden; }
+</style>
+</head>
+<body>
+<div id="curtain" class="curtain"><span>a preparar algo bonito para ti...</span></div>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <div class="hero">
+    <p class="pre">Para a mulher mais linda do mundo</p>
+    <h1 class="name">Sezaltina</h1>
+    <p class="age-line">23 de Setembro uma luz que o mundo teve sorte em receber</p>
+    <p class="hero-lede">
+      Fiz este espaço só para ti, com calma e com carinho. Cada página aqui guarda
+      um pouco do que sinto. Explora sem pressa, clica em tudo, e não te esqueças
+      de chegar à última. 💗
+    </p>
+
+    <div id="birthday-banner" class="birthday-banner" style="display:none;">
+      <h2 id="birthday-title">Feliz aniversário, Sezaltina! 🎂</h2>
+      <p style="margin-top:.6rem; opacity:.9;">Hoje o mundo tem mais um motivo para sorrir. Espero que este dia seja tão especial quanto tu.</p>
+    </div>
+
+    <div id="countdown-box" class="countdown">
+      <p class="label" id="countdown-label">Faltam para o teu aniversário</p>
+      <div class="count-grid" id="count-grid"></div>
+    </div>
+
+    <div class="actions">
+      <a class="btn" href="sobre.html">Conhecer a nossa história →</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+<script>
+function isBirthdayToday(now){
+  return now.getMonth()===8 && now.getDate()===23; // mês 8 = Setembro (0-index)
+}
+function nextBirthday(month, day){
+  const now = new Date();
+  let year = now.getFullYear();
+  let target = new Date(year, month-1, day, 0, 0, 0);
+  if(target <= now){ target = new Date(year+1, month-1, day, 0,0,0); }
+  return target;
+}
+function renderCountdown(){
+  const now = new Date();
+  if(isBirthdayToday(now)){
+    document.getElementById('birthday-banner').style.display = 'block';
+    document.getElementById('countdown-label').textContent = 'A contagem para o próximo aniversário já começou';
+  }
+  const target = nextBirthday(9, 23);
+  let diff = Math.max(0, target - now);
+  const days = Math.floor(diff/86400000);
+  const hours = Math.floor((diff%86400000)/3600000);
+  const mins = Math.floor((diff%3600000)/60000);
+  const secs = Math.floor((diff%60000)/1000);
+  const grid = document.getElementById('count-grid');
+  grid.innerHTML = `
+    <div class="count-item"><div class="num">${days}</div><div class="unit">dias</div></div>
+    <div class="count-item"><div class="num">${hours}</div><div class="unit">horas</div></div>
+    <div class="count-item"><div class="num">${mins}</div><div class="unit">min</div></div>
+    <div class="count-item"><div class="num">${secs}</div><div class="unit">seg</div></div>
+  `;
+}
+renderCountdown();
+setInterval(renderCountdown, 1000);
+
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    const c = document.getElementById('curtain');
+    if(c) c.classList.add('gone');
+  }, 900);
+});
+</script>
+</body>
+</html>

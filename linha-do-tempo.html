@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Linha do tempo — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.timeline{ position:relative; max-width:640px; margin:3rem auto 0; padding-left:2rem; }
+.timeline::before{
+  content:''; position:absolute; left:8px; top:6px; bottom:6px; width:2px;
+  background:linear-gradient(180deg, var(--gold), var(--pink));
+}
+.t-item{ position:relative; margin-bottom:2.2rem; }
+.t-item::before{
+  content:''; position:absolute; left:-2rem; top:4px; width:14px; height:14px;
+  border-radius:50%; background:var(--pink); box-shadow:0 0 12px 3px rgba(255,111,165,.6);
+}
+.t-item.marked::before{ background:var(--gold); box-shadow:0 0 14px 4px rgba(217,164,65,.65); }
+.t-date{ font-family:'Cormorant Garamond',serif; font-size:1.05rem; font-weight:700; color:var(--champagne); }
+.t-text{ margin-top:.3rem; opacity:.92; max-width:56ch; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">A linha do tempo do que sinto</h1>
+  <p class="lede">Não é a história de tudo o que já vivemos, é a história de tudo o que já senti.</p>
+
+  <div class="timeline">
+    <div class="t-item marked">
+      <div class="t-date">23 de Setembro, 1992</div>
+      <div class="t-text">Os meus pais casam-se, sem imaginar que estavam a marcar, sem saber, a data que doze anos depois traria ao mundo a pessoa que eu viria a amar.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-date">O dia em que reparei em ti</div>
+      <div class="t-text">Um momento simples, sem aviso e, ainda assim, o suficiente para mudar a direção dos meus pensamentos.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-date">O dia em que sorri sozinho, sem motivo aparente</div>
+      <div class="t-text">Só depois percebi: o motivo eras tu, algures nos meus pensamentos.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-date">O dia em que percebi que não era passageiro</div>
+      <div class="t-text">Não foi um estalar de dedos. Foi uma certeza que foi crescendo, devagar, até não caber mais em silêncio.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-date">21 de Setembro</div>
+      <div class="t-text">O meu aniversário. Dois dias antes do teu, todos os anos — um pequeno preâmbulo para o teu.</div>
+    </div>
+    <div class="t-item marked">
+      <div class="t-date">23 de Setembro — Hoje</div>
+      <div class="t-text">O dia em que decidi transformar tudo o que sinto numa pergunta. E oferecer-te este site, feito à mão, como prenda de aniversário.</div>
+    </div>
+    <div class="t-item">
+      <div class="t-date">O próximo capítulo</div>
+      <div class="t-text">Este ainda não está escrito. Espero escrevê-lo contigo.</div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin-top:2.6rem;">
+    <a class="btn" href="razoes.html">Ver porquê te amo →</a>
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+
+</body>
+</html>

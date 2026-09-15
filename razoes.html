@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Porquê te amo — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.cards-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:1.1rem; margin-top:2.2rem; }
+.reason-card{
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:18px; padding:1.6rem; cursor:pointer; min-height:150px;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+  transition:.3s; backdrop-filter:blur(6px);
+}
+.reason-card:hover{ transform:translateY(-5px); background:rgba(255,111,165,.16); border-color:var(--pink); }
+.reason-card .front{ font-size:1.9rem; }
+.reason-card .back{ display:none; font-family:'Cormorant',serif; font-style:italic; font-size:1.05rem; line-height:1.55; }
+.reason-card.flipped .front{ display:none; }
+.reason-card.flipped .back{ display:block; }
+.shuffle-row{ text-align:center; margin-top:2rem; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">Porquê te amo</h1>
+  <p class="lede">Clica em cada cartão. E se voltares amanhã, as razões já não são as mesmas.</p>
+
+  <div class="cards-grid" id="grid"></div>
+
+  <div class="shuffle-row">
+    <button id="shuffle-btn" class="btn ghost">Baralhar razões 🔀</button>
+  </div>
+
+  <div class="actions">
+      <a class="btn" href="carta.html">Esta carta é pra ti! →</a>
+  </div>
+
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+<script>
+const POOL = [
+  "pelo teu sorriso, que ilumina até os meus dias mais cinzentos",
+  "pela calma com que cuidas de quem amas, sem pedires nada em troca",
+  "por seres exatamente tu, sem nunca precisares de fingir ser outra coisa",
+  "pela tua força tranquila em tudo o que decides fazer",
+  "por me fazeres querer ser, todos os dias, uma versão melhor de mim",
+  "pelos teus 23 anos de luz, que o mundo tem sorte em ter perto",
+  "pela paz que sinto só por saber que existes algures no mundo",
+  "porque, entre todas as coincidências, a mais bonita foste tu",
+  "pela forma como te dedicas àquilo em que acreditas",
+  "por seres capaz de tornar um dia comum em algo memorável",
+  "pela tua curiosidade sobre o mundo e sobre as pessoas",
+  "por saberes ouvir sem julgar",
+  "pela tua paciência, mesmo quando eu não a mereço",
+  "por acreditares em mim mais do que eu próprio, às vezes",
+  "pela tua honestidade, mesmo quando é difícil de dizer",
+  "por transformares o simples em especial",
+  "pelo jeito como as tuas ideias nunca param de crescer",
+  "por seres, sem esforço, a pessoa mais interessante de qualquer sala",
+  "pela tua elegância em lidar com os dias difíceis",
+  "porque sempre que penso em recomeçar algo, penso em recomeçar contigo",
+  "por seres capaz de rir de ti mesma, sem perder a tua força",
+  "pela forma como cuidas dos detalhes que ninguém mais repara",
+  "por seres o tipo de pessoa que faz os outros quererem ser melhores",
+  "porque contigo, até os planos mais simples parecem aventuras",
+  "pela tua determinação, mesmo quando o caminho é incerto",
+  "por nunca teres deixado de ser tu mesma, mesmo quando seria mais fácil",
+  "pela forma como o teu nome, sozinho, já basta para me fazer sorrir",
+  "porque em ti encontrei um tipo de paz que nunca soube que precisava"
+];
+
+function shuffleAndPick(n){
+  const arr = [...POOL];
+  for(let i=arr.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]] = [arr[j],arr[i]];
+  }
+  return arr.slice(0,n);
+}
+
+function renderReasons(){
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  shuffleAndPick(8).forEach(text=>{
+    const card = document.createElement('div');
+    card.className = 'reason-card';
+    card.innerHTML = `<div class="front">♡</div><div class="back">${text}</div>`;
+    card.addEventListener('click', ()=>card.classList.toggle('flipped'));
+    grid.appendChild(card);
+  });
+}
+renderReasons();
+document.getElementById('shuffle-btn').addEventListener('click', renderReasons);
+</script>
+</body>
+</html>

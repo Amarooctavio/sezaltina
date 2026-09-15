@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galeria — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.gallery{ display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:2.4rem; }
+.gallery figure{
+  margin:0; border-radius:18px; overflow:hidden; position:relative;
+  border:1px solid rgba(255,255,255,.15); box-shadow:0 14px 34px rgba(0,0,0,.35);
+}
+.gallery img{ display:block; width:100%; height:100%; object-fit:cover; aspect-ratio:3/4; transition:.4s; }
+.gallery figure:hover img{ transform:scale(1.04); }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">Galeria</h1>
+  <p class="lede">Alguns dos meus momentos favoritos a ver-te.</p>
+
+  <div class="gallery">
+    <figure><img src="foto1.jpg" alt="Sezaltina" loading="lazy"></figure>
+    <figure><img src="foto2.jpg" alt="Sezaltina" loading="lazy"></figure>
+    <figure><img src="foto3.jpg" alt="Sezaltina" loading="lazy"></figure>
+    <figure><img src="foto4.jpg" alt="Sezaltina" loading="lazy"></figure>
+    <figure><img src="foto5.jpg" alt="Sezaltina" loading="lazy"></figure>
+    <figure><img src="foto6.jpg" alt="Sezaltina" loading="lazy"></figure>
+  </div>
+
+  <div style="text-align:center; margin-top:2.6rem;">
+    <a class="btn" href="verso.html">Ver a frase do dia →</a>
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="pedido.html" class="fab-ask"><span>Não te esqueças</span> 💍</a>
+<script src="bg.js"></script>
+
+</body>
+</html>

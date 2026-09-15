@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Resultado (privado)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="css/style.css">
+<style>
+.center{ text-align:center; padding-top:3rem; }
+.status-card{
+  max-width:480px; margin:2rem auto 0;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:20px; padding:2.4rem; backdrop-filter:blur(6px);
+}
+.status-title{ font-family:'Cormorant Garamond',serif; font-size:1.8rem; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<main class="center" style="max-width:920px;margin:0 auto;padding:3.2rem 1.6rem;">
+  <h1 class="eyebrow-free-title">Página privada</h1>
+  <p class="lede" style="margin-left:auto;margin-right:auto;">Só tu tens este link. Ela nunca vê esta página.</p>
+
+  <div class="status-card">
+    <p class="status-title" id="status-title">A verificar...</p>
+    <p id="status-sub" style="margin-top:.8rem; opacity:.85;"></p>
+    <button id="refresh-btn" class="btn ghost" style="margin-top:1.6rem;">Verificar de novo</button>
+  </div>
+</main>
+
+<div id="confetti-container"></div>
+<script src="js/bg.js"></script>
+<script>
+const STATUS_URL = "https://kvdb.io/sez-amr-5d7a2d01d3/resposta";
+
+async function checkStatus(){
+  const title = document.getElementById('status-title');
+  const sub = document.getElementById('status-sub');
+  title.textContent = "A verificar...";
+  sub.textContent = "";
+  try{
+    const res = await fetch(STATUS_URL, { cache: 'no-store' });
+    if(res.ok){
+      const text = (await res.text()).trim();
+      if(text === 'sim'){
+        title.textContent = "Ela disse SIM! 🎉💍";
+        sub.textContent = "Sezaltina já respondeu ao teu pedido.";
+        launchConfetti();
+        return;
+      }
+    }
+    title.textContent = "Ainda a aguardar 💌";
+    sub.textContent = "Ela ainda não abriu a página do pedido, ou ainda não respondeu.";
+  }catch(e){
+    title.textContent = "Sem ligação";
+    sub.textContent = "Não foi possível verificar agora. Tenta novamente.";
+  }
+}
+checkStatus();
+document.getElementById('refresh-btn').addEventListener('click', checkStatus);
+
+function launchConfetti(){
+  const container = document.getElementById('confetti-container');
+  const colors = ['#ff2d78','#ff6fa5','#d9a441','#ffffff','#c94f7c'];
+  for(let i=0;i<130;i++){
+    setTimeout(()=>{
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random()*100 + 'vw';
+      piece.style.width = (6+Math.random()*6)+'px';
+      piece.style.height = (6+Math.random()*10)+'px';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration = (2.5+Math.random()*2.5)+'s';
+      container.appendChild(piece);
+      setTimeout(()=>piece.remove(), 5500);
+    }, i*18);
+  }
+}
+</script>
+</body>
+</html>

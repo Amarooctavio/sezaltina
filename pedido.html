@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Um pedido — Sezaltina &amp; Amaro</title>
+<link rel="stylesheet" href="css/style.css">
+<style>
+.ask-wrapper{ text-align:center; padding-top:1rem; }
+.ask-title{ font-family:'Cormorant Garamond',serif; font-size:1.7rem; }
+.ask-question{ font-family:'Cormorant Garamond',serif; font-size:2.4rem; margin:1.4rem 0 2.6rem; font-weight:700; }
+.ask-buttons{ position:relative; display:flex; justify-content:center; gap:2rem; height:170px; }
+.yes-btn, .no-btn{
+  padding:1.05rem 2.4rem; border:none; border-radius:30px; font-size:1.08rem;
+  font-weight:600; cursor:pointer; font-family:'Poppins',sans-serif;
+}
+.yes-btn{ background:linear-gradient(90deg,var(--hotpink),var(--gold)); color:#1a0714; box-shadow:0 12px 30px rgba(255,45,120,.5); transition:.2s; }
+.yes-btn:hover{ transform:scale(1.07); }
+.no-btn{ background:rgba(255,255,255,.14); color:#fff; position:relative; transition:top .16s, left .16s; }
+.celebration{ margin-top:1.5rem; }
+.celebration.hidden{ display:none; }
+.celebration-title{ font-family:'Cormorant Garamond',serif; font-size:2.4rem; color:var(--gold); }
+.celebration-text{ max-width:480px; margin:1.2rem auto; line-height:1.7; }
+.celebration-sign{ margin-top:1rem; opacity:.85; font-style:italic; font-family:'Cormorant',serif; }
+.answered-card{
+  max-width:520px; margin:1.5rem auto 0; text-align:center;
+  background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.15);
+  border-radius:20px; padding:2.2rem; backdrop-filter:blur(6px);
+}
+.hidden{ display:none; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <div class="ask-wrapper">
+
+    <div id="ask-section">
+      <h2 class="ask-title">Sezaltina Simbovala Soy Magalhães...</h2>
+      <p class="ask-question">Aceitas namorar comigo? 💍</p>
+      <div class="ask-buttons" id="ask-buttons">
+        <button id="yes-btn" class="yes-btn">SIM ✔</button>
+        <button id="no-btn" class="no-btn">NÃO</button>
+      </div>
+    </div>
+
+    <div id="celebration" class="celebration hidden">
+      <h1 class="celebration-title">Disseste SIM! 🎉💍</h1>
+      <p class="celebration-text">
+        Sezaltina, a partir de hoje começamos oficialmente a nossa história.
+        Obrigado por seres tu. Amo-te.
+      </p>
+      <p class="celebration-sign">Com todo o amor, Amaro Octávio Chico</p>
+    </div>
+
+    <div id="answered-section" class="answered-card hidden">
+      <p style="font-family:'Cormorant Garamond',serif; font-size:1.4rem;">Já me deste a tua resposta 💗</p>
+      <p style="margin-top:.7rem; opacity:.85;">Obrigado por teres dito sim. Guardo isso comigo todos os dias.</p>
+    </div>
+
+  </div>
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico</footer>
+
+<div id="confetti-container"></div>
+
+<script src="js/bg.js"></script>
+<script>
+/* Estado partilhado simples via kvdb.io (sem servidor próprio) */
+const STATUS_URL = "https://kvdb.io/sez-amr-5d7a2d01d3/resposta";
+const LOCAL_KEY = "sez_amaro_respondeu";
+
+const askSection = document.getElementById('ask-section');
+const celebration = document.getElementById('celebration');
+const answeredSection = document.getElementById('answered-section');
+const askButtons = document.getElementById('ask-buttons');
+const noBtn = document.getElementById('no-btn');
+const yesBtn = document.getElementById('yes-btn');
+
+function showAlreadyAnswered(){
+  askSection.classList.add('hidden');
+  celebration.classList.add('hidden');
+  answeredSection.classList.remove('hidden');
+}
+
+async function checkIfAlreadyAnswered(){
+  if(localStorage.getItem(LOCAL_KEY) === 'sim'){
+    showAlreadyAnswered();
+    return;
+  }
+  try{
+    const res = await fetch(STATUS_URL, { cache: 'no-store' });
+    if(res.ok){
+      const text = (await res.text()).trim();
+      if(text === 'sim'){
+        localStorage.setItem(LOCAL_KEY, 'sim');
+        showAlreadyAnswered();
+      }
+    }
+  }catch(e){ /* sem ligação — segue com o fluxo normal */ }
+}
+checkIfAlreadyAnswered();
+
+function fleeNo(){
+  const maxX = askButtons.clientWidth - noBtn.clientWidth - 10;
+  const maxY = askButtons.clientHeight - noBtn.clientHeight - 10;
+  const x = Math.random() * Math.max(maxX,10);
+  const y = Math.random() * Math.max(maxY,10);
+  noBtn.style.position = 'absolute';
+  noBtn.style.left = x + 'px';
+  noBtn.style.top = y + 'px';
+}
+noBtn.addEventListener('mouseenter', fleeNo);
+noBtn.addEventListener('touchstart', (e)=>{ e.preventDefault(); fleeNo(); });
+noBtn.addEventListener('click', (e)=>{ e.preventDefault(); fleeNo(); });
+
+yesBtn.addEventListener('click', async ()=>{
+  askSection.classList.add('hidden');
+  celebration.classList.remove('hidden');
+  launchConfetti();
+  localStorage.setItem(LOCAL_KEY, 'sim');
+  try{
+    await fetch(STATUS_URL, { method:'POST', body:'sim' });
+  }catch(e){ /* mesmo sem rede, guardamos localmente */ }
+});
+
+function launchConfetti(){
+  const container = document.getElementById('confetti-container');
+  const colors = ['#ff2d78','#ff6fa5','#d9a441','#ffffff','#c94f7c'];
+  for(let i=0;i<140;i++){
+    setTimeout(()=>{
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random()*100 + 'vw';
+      piece.style.width = (6+Math.random()*6)+'px';
+      piece.style.height = (6+Math.random()*10)+'px';
+      piece.style.background = colors[Math.floor(Math.random()*colors.length)];
+      piece.style.animationDuration = (2.5+Math.random()*2.5)+'s';
+      container.appendChild(piece);
+      setTimeout(()=>piece.remove(), 5500);
+    }, i*18);
+  }
+}
+</script>
+</body>
+</html>

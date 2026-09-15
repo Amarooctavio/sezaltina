@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Um jogo sobre nós — Sezaltina & Amaro</title>
+<link rel="stylesheet" href="style.css">
+<style>
+.q-card{
+  max-width:600px; margin:1.8rem auto 0;
+  background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.14);
+  border-radius:18px; padding:1.5rem 1.6rem;
+}
+.q-title{ font-family:'Cormorant Garamond',serif; font-size:1.2rem; margin-bottom:.9rem; }
+.q-opts{ display:flex; gap:.6rem; flex-wrap:wrap; }
+.q-opt{
+  border:1px solid rgba(255,255,255,.25); background:transparent; color:#fff;
+  padding:.55rem 1rem; border-radius:20px; font-size:.85rem; cursor:pointer; transition:.2s;
+  font-family:'Poppins',sans-serif;
+}
+.q-opt:hover{ background:var(--pink); border-color:var(--pink); }
+.q-reveal{ margin-top:1rem; font-family:'Cormorant',serif; font-style:italic; opacity:0; max-height:0; overflow:hidden; transition:.35s; }
+.q-reveal.show{ opacity:1; max-height:120px; margin-top:1rem; }
+</style>
+</head>
+<body>
+<div id="stars-bg"></div>
+
+<header class="site-nav">
+  <span class="brand">Sezaltina &amp; Amaro</span>
+  <nav class="links">
+    <a href="index.html">Início</a>
+    <a href="sobre.html">Sobre nós</a>
+    <a href="linha-do-tempo.html">Linha do tempo</a>
+    <a href="razoes.html">Porquê te amo</a>
+    <a href="carta.html">Uma carta</a>
+    <a href="promessas.html">Promessas</a>
+    <a href="futuro.html">O nosso futuro</a>
+    <a href="galeria.html">Galeria</a>
+    <a href="verso.html">Frase do dia</a>
+    <a href="quiz.html">Um jogo sobre nós</a>
+    <a href="agradecimento.html">Obrigada</a>
+    <a href="musica.html">A nossa música</a>
+    <a href="pedido.html" class="special-link">💍 O pedido</a>
+  </nav>
+</header>
+
+<main class="page-fade">
+  <h1 class="eyebrow-free-title">Um jogo sobre nós</h1>
+  <p class="lede">Sem pontuação, sem certo ou errado — só para sorrires um pouco. Clica numa opção em cada pergunta.</p>
+
+  <div id="quiz-container"></div>
+<div style="text-align:center; margin-top:2rem;">
+    <a class="btn" href="pedido.html">Ir para a última página 💍</a>
+  </div>
+
+</main>
+
+<footer class="site-foot">feito à mão, com muito amor, por Amaro Octávio Chico <a href="surpresa.html" class="egg" aria-label="?">·</a></footer>
+
+<a href="agradecimento.html" class="fab-ask"><span>Ver a minha gratidão</span> 💍</a>
+<script src="bg.js"></script>
+<script>
+const QUESTIONS = [
+  {
+    q: "Quem vai reler esta página mais vezes?",
+    opts: ["Eu, sem dúvida", "Tu, admite", "Os dois, ao mesmo tempo"],
+    reveal: "A resposta certa é: os dois. Eu já reli isto vezes demais a escrever."
+  },
+  {
+    q: "Qual destas frases descreve melhor 23 de Setembro?",
+    opts: ["Só mais um dia", "O dia mais importante do calendário", "O dia em que o mundo acertou em cheio"],
+    reveal: "Definitivamente a última. Sem hesitação."
+  },
+  {
+    q: "O que achas que vou fazer a seguir a esta pergunta?",
+    opts: ["Nada de especial", "Esperar a tua resposta ao pedido", "As duas coisas ao mesmo tempo, nervoso"],
+    reveal: "As duas. Estou nervoso a escrever isto, já a imaginar a tua reação."
+  },
+  {
+    q: "Setembro é o mês de quem?",
+    opts: ["Só meu", "Só teu", "Nosso, sempre"],
+    reveal: "Nosso. Sempre foi, mesmo antes de nos conhecermos."
+  }
+];
+
+const container = document.getElementById('quiz-container');
+QUESTIONS.forEach((item, idx)=>{
+  const card = document.createElement('div');
+  card.className = 'q-card';
+  const optsHtml = item.opts.map((o,i)=>`<button class="q-opt" data-i="${i}">${o}</button>`).join('');
+  card.innerHTML = `<div class="q-title">${idx+1}. ${item.q}</div><div class="q-opts">${optsHtml}</div><div class="q-reveal">${item.reveal}</div>`;
+  const reveal = card.querySelector('.q-reveal');
+  card.querySelectorAll('.q-opt').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ reveal.classList.add('show'); });
+  });
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>
